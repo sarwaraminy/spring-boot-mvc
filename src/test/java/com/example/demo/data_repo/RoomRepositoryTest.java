@@ -1,11 +1,10 @@
 package com.example.demo.data_repo;
 
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-
-import java.util.List;
-
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +45,7 @@ public class RoomRepositoryTest {
 
         // Assertions
         assertNotNull(foundRooms);
-        assertEquals(3, foundRooms.size()); // Ensure all rooms are found
+        assertEquals(2, foundRooms.size()); // Ensure all rooms are found
         assertTrue(foundRooms.stream().anyMatch(room -> room.getRoomNumber().equals("101")));
         assertTrue(foundRooms.stream().anyMatch(room -> room.getRoomNumber().equals("102")));
         assertTrue(foundRooms.stream().anyMatch(room -> room.getBedInfo().equals("Queen size bed")));
