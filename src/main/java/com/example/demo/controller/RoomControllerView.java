@@ -1,11 +1,15 @@
 package com.example.demo.controller;
 
+import java.io.IOException;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,11 +21,6 @@ import com.example.demo.data.Room;
 import com.example.demo.output.RoomToExcel;
 import com.example.demo.output.RoomToPDF;
 import com.example.demo.services.RoomService;
-
-import org.springframework.ui.Model;
-
-import java.io.IOException;
-import java.util.List;
 
 
 
@@ -81,24 +80,28 @@ public class RoomControllerView {
 	}
 		
 		//update records
-		@PostMapping("/edit")
-		public String updateRoom(@ModelAttribute Room room, RedirectAttributes redirectAttributes) {
-			try {
+		@PostMapping("/edit/{id}")
+		public String updateRoom(@PathVariable Long id, @ModelAttribute Room room, RedirectAttributes redirectAttributes) {
+			Room roomid = roomService.getRoomById(id);
+
+			if (roomid != null) {
 				roomService.saveRoom(room);
 				redirectAttributes.addFlashAttribute("successMessage", "Room updated successfully.");
-			} catch (Exception e) {
+			} else {
 				redirectAttributes.addFlashAttribute("errorMessage", "Failed to update room.");
-				e.printStackTrace();
 			}
 			return "redirect:/rooms/view";
 		}
 		
 		//delete a room
 		@PostMapping("/delete/{id}")
-		public String deleteGuest(@PathVariable long id) {
+		public String deleteGuest(@PathVariable Long id, RedirectAttributes redirectAttributes) {
 			Room room = roomService.getRoomById(id);
 			if(room != null) {
 				roomService.deleteRoom(id);
+				redirectAttributes.addFlashAttribute("successMessage", "Room updated successfully.");
+			} else {
+				redirectAttributes.addFlashAttribute("errorMessage", "Failed to update room.");
 			}
 			return "redirect:/rooms/view";
 		}

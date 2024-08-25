@@ -196,7 +196,7 @@
                 console.log(formData);
                 // Make AJAX request to update room
                 $.ajax({
-                    url: 'rooms/view/edit',
+                    url: 'rooms/view/edit/'+roomId,
                     type: 'POST',
                     data: formData,
                     success: function(data) {
